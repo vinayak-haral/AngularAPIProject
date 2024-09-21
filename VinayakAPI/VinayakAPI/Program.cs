@@ -7,6 +7,8 @@ using VinayakAPI.Data;
 using VinayakAPI.Interfaces;
 using VinayakAPI.Repository;
 
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,10 +24,20 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();  // You can add other providers as needed
 
+///
+// Configure Serilog it will logs the loggers in below folder or files
+Log.Logger = new LoggerConfiguration()
+.MinimumLevel.Debug()
+.WriteTo.Console()
+.WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+.CreateLogger();
+
+
+builder.Host.UseSerilog();
 
 //builder.Services.AddControllers();
 builder.Services.AddScoped<IProductRepository, ProductRepository>(); // Register repository
-builder.Services.AddSingleton<IUserRepository, UserRegistRepository>();
+builder.Services.AddScoped<IUserRepository, UserRegistRepository>();
 
 // Configure DbContext with connection string
 builder.Services.AddDbContext<mainAPIDbContext>(options =>
@@ -60,6 +72,13 @@ builder.Services.AddAuthorization();
 
 //--------------------------------------------
 var app = builder.Build();
+
+app.MapGet("/", (ILogger<Program> logger) =>
+{
+    logger.LogInformation("This is an information log with Serilog.");
+    return "Check your Serilog file!";
+});
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

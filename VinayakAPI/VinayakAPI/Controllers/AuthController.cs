@@ -13,7 +13,12 @@ namespace VinayakAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public AuthController(){ }
+        private readonly IConfiguration _configuration;
+
+        public AuthController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel loginModel)

@@ -75,5 +75,21 @@ namespace VinayakAPI.Data
 
 
 
+        // Method to insert a User Registration
+        public async Task<int> InsertUserRegisterAsync(UserRegistration userRegistration)
+        {
+            var parameters = new[]
+            {
+                new SqlParameter("@Username", userRegistration.Username),
+                new SqlParameter ("@Password", userRegistration.Password),
+                new SqlParameter("@Phone",userRegistration.Phone),
+                new SqlParameter ("@Email",userRegistration.Email),
+                new SqlParameter ("@Gender",userRegistration.Gender)
+
+            };
+            return await Database.ExecuteSqlRawAsync("EXEC InsertProduct @Name, @Price, @Quantity,@Salary, @Phone, @Department, @Email , @Education", parameters);
+        }
+
+
     }
 }
