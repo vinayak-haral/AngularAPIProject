@@ -12,7 +12,7 @@ namespace VinayakAPI.Data
         // Products Models
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<userRegistration> UserRegistration { get; set; }
+        public DbSet<UserRegistration> UserRegistration { get; set; }
 
         public DbSet<LoginModel> LoginModel { get; set; }
 
@@ -72,6 +72,7 @@ namespace VinayakAPI.Data
             var param = new SqlParameter("@Id", id);
             return await Database.ExecuteSqlRawAsync("EXEC DeleteProduct @Id", param);
         }
+
 
 
     }

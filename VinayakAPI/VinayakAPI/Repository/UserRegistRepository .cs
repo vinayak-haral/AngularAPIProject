@@ -4,7 +4,7 @@ using VinayakAPI.Models;
 
 namespace VinayakAPI.Repository
 {
-    public class UserRegistRepository:IUserRepository
+    public class UserRegistRepository: IUserRepository
     {
         // Instance of DbContex Class
         private readonly mainAPIDbContext _context;
@@ -13,15 +13,10 @@ namespace VinayakAPI.Repository
         {
             _context = context;
         }
-
-        //public async Task AddUserRegistration(UserRegistration user)
-        //{
-        //    await _context.InsertProductAsync(user);
-        //}
-
+              
         public async Task AddUserRegistration(UserRegistration user)
         {
-            await _context.InsertProductAsync(user);
+           await _context.InsertProductAsync(user);
         }
     }
 }

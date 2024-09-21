@@ -8,11 +8,11 @@ namespace VinayakAPI.Repository
 {
     public class LoginRepository
     {
-        public IActionResult Login(LoginModel loginModel)
-        {
-            // For demo, validate username/password
-            if (loginModel.Username != "testuser" || loginModel.Password != "password") ;
-            return "";
-        }
+        //public IActionResult Login(LoginModel loginModel)
+        //{
+        //    // For demo, validate username/password
+        //    if (loginModel.Username != "testuser" || loginModel.Password != "password") ;
+        //    return "";
+        //}
     }
 }

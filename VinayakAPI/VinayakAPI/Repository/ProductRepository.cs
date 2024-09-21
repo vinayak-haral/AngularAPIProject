@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using VinayakAPI.Data;
 using VinayakAPI.Interfaces;
 using VinayakAPI.Models;
@@ -11,14 +12,33 @@ namespace VinayakAPI.Repository
         // Instance of DbContex Class
         private readonly mainAPIDbContext _products;
 
-        public ProductRepository(mainAPIDbContext product)
+        private readonly ILogger<ProductRepository> _logger;
+
+
+        public ProductRepository(mainAPIDbContext product,ILogger<ProductRepository> logger)
         {
             _products = product;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<Product>> GetAllProducts()
         {
-            return await _products.GetAllProductsAsync();
+            try
+            {
+                _logger.LogInformation("Product data called");
+                _logger.LogTrace("Checks first {Time}", DateTime.Now);
+                // Below we can write the our repository logics
+                var dataToReturn = await _products.GetAllProductsAsync();
+                _logger.LogTrace("Checks second trace {Time}", DateTime.Now);
+
+                return dataToReturn;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in somemethods at {time}", DateTime.Now);
+                throw;
+            }
+          
         }
 
         public async Task<Product> GetProductById(Guid id)

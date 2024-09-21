@@ -8,10 +8,12 @@ namespace VinayakAPI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly ILogger<ProductsController> _logger;
         private readonly IProductRepository _productRepository;//Proparty of interfcae
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository,ILogger<ProductsController> logger)
         {
+            _logger = logger;
             _productRepository = productRepository;
         }
 
@@ -26,19 +28,41 @@ namespace VinayakAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(Guid id)
         {
+            _logger.LogInformation("API gets called");
+            _logger.LogTrace("Get Method started at {time}", DateTime.Now);
             var product = await _productRepository.GetProductById(id);
             if (product == null)
             {
                 return NotFound();
             }
+            _logger.LogTrace("Get Method finished at {time}", DateTime.Now);
+
             return Ok(product);
+
+
         }
 
         [HttpPost]
         public async Task<ActionResult> CreateProduct(Product product)
         {
-            await _productRepository.AddProduct(product);
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+            _logger.LogTrace("CreateProduct started at {Time}", DateTime.Now);
+
+            try
+            {
+                _logger.LogTrace("Processing in SomeMethod...");
+                await _productRepository.AddProduct(product);
+                var dataToReturn =  CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+
+              _logger.LogTrace("SomeMethod completed successfully at {Time}", DateTime.Now);
+
+                return dataToReturn;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in SomeMethod at {Time}", DateTime.Now);
+                throw;
+            }
+           
         }
 
         [HttpPut("{id}")]
