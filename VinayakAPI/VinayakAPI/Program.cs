@@ -8,6 +8,7 @@ using VinayakAPI.Interfaces;
 using VinayakAPI.Repository;
 
 using Serilog;
+using VinayakAPI.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //--------------------------------------------
-
+    
 // Register logging service
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
@@ -37,7 +38,10 @@ builder.Host.UseSerilog();
 
 //builder.Services.AddControllers();
 builder.Services.AddScoped<IProductRepository, ProductRepository>(); // Register repository
-builder.Services.AddScoped<IUserRepository, UserRegistRepository>();
+//builder.Services.AddScoped<IUserRepository, UserRegistRepository>();
+builder.Services.AddScoped<ILogin, LoginRepository>();
+
+builder.Services.AddSingleton<TokenService>(); // Register Token service here
 
 // Configure DbContext with connection string
 builder.Services.AddDbContext<mainAPIDbContext>(options =>
@@ -62,8 +66,12 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings.GetValue<string>("Issuer"),
-        ValidAudience = jwtSettings.GetValue<string>("Audience"),
+        //ValidIssuer = jwtSettings.GetValue<string>("Issuer"),
+        //ValidAudience = jwtSettings.GetValue<string>("Audience"),
+        //IssuerSigningKey = new SymmetricSecurityKey(secretKey)
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
         IssuerSigningKey = new SymmetricSecurityKey(secretKey)
     };
 });

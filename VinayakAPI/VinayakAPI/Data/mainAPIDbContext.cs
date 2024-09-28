@@ -12,9 +12,15 @@ namespace VinayakAPI.Data
         // Products Models
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<UserRegistration> UserRegistration { get; set; }
+        // public DbSet<UserRegistration> UserRegistration { get; set; }
 
         public DbSet<LoginModel> LoginModel { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<LoginModel>().HasNoKey();
+        }
+
 
         // Method to get all products using  Method to execute stored procedure
         public async Task<List<Product>> GetAllProductsAsync()
@@ -74,21 +80,26 @@ namespace VinayakAPI.Data
         }
 
 
+        // Login
+        public async Task<List<LoginModel>> GetAllLogin()
+        {
+            return await LoginModel.FromSqlRaw("EXEC GetLoginData").ToListAsync();
+        }
 
         // Method to insert a User Registration
-        public async Task<int> InsertUserRegisterAsync(UserRegistration userRegistration)
-        {
-            var parameters = new[]
-            {
-                new SqlParameter("@Username", userRegistration.Username),
-                new SqlParameter ("@Password", userRegistration.Password),
-                new SqlParameter("@Phone",userRegistration.Phone),
-                new SqlParameter ("@Email",userRegistration.Email),
-                new SqlParameter ("@Gender",userRegistration.Gender)
+        //public async Task<int> InsertUserRegisterAsync(UserRegistration userRegistration)
+        //{
+        //    var parameters = new[]
+        //    {
+        //        new SqlParameter("@Username", userRegistration.Username),
+        //        new SqlParameter ("@Password", userRegistration.Password),
+        //        new SqlParameter("@Phone",userRegistration.Phone),
+        //        new SqlParameter ("@Email",userRegistration.Email),
+        //        new SqlParameter ("@Gender",userRegistration.Gender)
 
-            };
-            return await Database.ExecuteSqlRawAsync("EXEC InsertProduct @Name, @Price, @Quantity,@Salary, @Phone, @Department, @Email , @Education", parameters);
-        }
+        //    };
+        //    return await Database.ExecuteSqlRawAsync("EXEC InsertProduct @Name, @Price, @Quantity,@Salary, @Phone, @Department, @Email , @Education", parameters);
+        //}
 
 
     }

@@ -80,43 +80,6 @@ namespace VinayakAPI.Controllers
             await _productRepository.DeleteProduct(id);
             return NoContent();
         }
-
-
-        //// GET api/products
-        //[HttpGet]
-        //public ActionResult<IEnumerable<Product>> Get()
-        //{
-        //    return Ok(_productRepository.GetAll());
-        //}
-
-        //// GET api/products/{id}
-        //[HttpGet("{id}")]
-        //public ActionResult<Product> Get(int id)
-        //{
-        //    var product = _productRepository.GetById(id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(product);
-        //}
-
-        //// POST api/products
-        //[HttpPost]
-        //public ActionResult<Product> Post([FromBody] Product product)
-        //{
-        //    if (product == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _productRepository.Add(product);
-        //    _productRepository.Save();
-
-        //    //return CreatedAtAction(nameof(Get), new { id = product.Id }, product);
-        //    return Ok(product);
-        //}
-    
     
     }
 }
