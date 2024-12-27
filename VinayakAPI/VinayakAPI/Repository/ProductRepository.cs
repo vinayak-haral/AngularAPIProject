@@ -60,39 +60,6 @@ namespace VinayakAPI.Repository
             await _products.DeleteProductAsync(id);
         }
 
-        //public async Task<IEnumerable<Product>> GetAllProducts()
-        //{
-        //    return await _products.Products.ToListAsync();
-        //}
-
-        //public async Task<Product> GetProductById(int id)
-        //{
-        //    return await _products.Products.FindAsync(id);
-        //}
-
-        //public async Task<Product> AddProduct(Product product)
-        //{
-        //    _products.Products.Add(product);
-        //    await _products.SaveChangesAsync();
-        //    return product;
-        //}
-
-        //public async Task UpdateProduct(Product product)
-        //{
-        //    _products.Entry(product).State = EntityState.Modified;
-        //    await _products.SaveChangesAsync();
-        //}
-
-        //public async Task DeleteProduct(int id)
-        //{
-        //    var product = await _products.Products.FindAsync(id);
-        //    if (product != null)
-        //    {
-        //        _products.Products.Remove(product);
-        //        await _products.SaveChangesAsync();
-        //    }
-        //}
-
         public void Save()
         {
             // In a real implementation, this would persist changes to the database

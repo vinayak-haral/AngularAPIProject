@@ -1,6 +1,8 @@
 ﻿using VinayakAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using System.Numerics;
+using System.Reflection;
 
 namespace VinayakAPI.Data
 {
@@ -12,7 +14,7 @@ namespace VinayakAPI.Data
         // Products Models
         public DbSet<Product> Products { get; set; }
 
-        // public DbSet<UserRegistration> UserRegistration { get; set; }
+        public DbSet<UserRegistration> UserRegistration { get; set; }
 
         public DbSet<LoginModel> LoginModel { get; set; }
 
@@ -85,6 +87,37 @@ namespace VinayakAPI.Data
         {
             return await LoginModel.FromSqlRaw("EXEC GetLoginData").ToListAsync();
         }
+
+
+        // User Registration forms.
+
+        // Method to get a product by Id
+        //public async Task<UserRegistration> GetUserByIdAsync(Guid id)
+        //{
+        //    var param = new SqlParameter("@Id", id);
+        //    var result = await Products.FromSqlRaw("EXEC GetProductById @Id", param).ToListAsync();
+        //    return result.FirstOrDefault();
+        //}
+
+        // Method to insert a product
+        public async Task<int> InsertUserProductAsync(UserRegistration user)
+        {
+            var parameters = new[]
+            {
+            new SqlParameter("@firstName", user.firstName),
+                new SqlParameter("@lastName", user.lastName),
+                new SqlParameter("@email", user.email),
+                new SqlParameter ("@phone", user.phone),
+                new SqlParameter("@gender", user.@gender),
+                new SqlParameter ("@location", user.location),
+                new SqlParameter ("@password", user.password),
+                new SqlParameter ("@confirmPassword", user.confirmPassword)
+
+            };
+            return await Database.ExecuteSqlRawAsync("EXEC InsertUserRegistration @firstName, @lastName, @email,@phone, @gender, @location, @password , @confirmPassword", parameters);
+        }
+
+
 
         // Method to insert a User Registration
         //public async Task<int> InsertUserRegisterAsync(UserRegistration userRegistration)

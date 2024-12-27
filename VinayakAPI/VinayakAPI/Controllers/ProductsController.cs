@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VinayakAPI.Interfaces;
 using VinayakAPI.Models;
 
@@ -6,10 +7,11 @@ namespace VinayakAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly ILogger<ProductsController> _logger;
-        private readonly IProductRepository _productRepository;//Proparty of interfcae
+        private readonly IProductRepository _productRepository;//Property of interfcae
 
         public ProductsController(IProductRepository productRepository,ILogger<ProductsController> logger)
         {

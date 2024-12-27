@@ -38,7 +38,7 @@ builder.Host.UseSerilog();
 
 //builder.Services.AddControllers();
 builder.Services.AddScoped<IProductRepository, ProductRepository>(); // Register repository
-//builder.Services.AddScoped<IUserRepository, UserRegistRepository>();
+builder.Services.AddScoped<IUserRepository, UserRegistRepository>();
 builder.Services.AddScoped<ILogin, LoginRepository>();
 
 builder.Services.AddSingleton<TokenService>(); // Register Token service here

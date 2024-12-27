@@ -16,7 +16,12 @@ namespace VinayakAPI.Repository
               
         public async Task AddUserRegistration(UserRegistration user)
         {
-           await _context.InsertUserRegisterAsync(user);
+           await _context.InsertUserProductAsync(user);
         }
+
+        //Task IUserRepository.AddUserRegistration(UserRegistRepository userRegistration)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
